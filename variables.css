@@ -1,0 +1,36 @@
+:root {
+  /* Culori */
+  --color-bg:             #0C0C0E;
+  --color-surface:        #111115;
+  --color-surface-2:      #1C1C22;
+  --color-border:         rgba(242, 242, 245, 0.08);
+  --color-border-hover:   rgba(79, 110, 247, 0.4);
+
+  --color-text-primary:   #F2F2F5;
+  --color-text-secondary: #6B6B7A;
+
+  --color-accent:         #4F6EF7;
+  --color-accent-hover:   #6B85FF;
+
+  /* Fonturi */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body:    'Inter', sans-serif;
+
+  /* Spațieri */
+  --space-xs:   8px;
+  --space-sm:   16px;
+  --space-md:   24px;
+  --space-lg:   40px;
+  --space-xl:   80px;
+
+  /* Border radius */
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+
+  /* Tranziții */
+  --transition: 0.25s ease;
+
+  /* Navbar */
+  --navbar-h: 72px;
+}

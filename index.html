@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LUMIS — Iluminat de Interior</title>
+  <meta name="description" content="Lămpi, lustre și candelabre cu design modern pentru orice spațiu interior." />
+
+  <!-- Fonturi -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/main.css" />
+
+  <style>
+    /* ── HERO ─────────────────────────────────────────────── */
+    .hero {
+      min-height: 100svh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      padding-top: 80px;
+    }
+
+    .hero__left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 60px 80px 80px;
+    }
+
+    .hero__eyebrow {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 32px;
+    }
+
+    .hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 5.5vw, 5.5rem);
+      font-weight: 600;
+      line-height: 1.04;
+      letter-spacing: -0.03em;
+      color: var(--color-text-primary);
+      margin-bottom: 28px;
+    }
+
+    .hero__title em {
+      font-style: normal;
+      color: var(--color-accent);
+    }
+
+    .hero__sub {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--color-text-secondary);
+      max-width: 380px;
+      margin-bottom: 48px;
+    }
+
+    .hero__actions {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .hero__right {
+      position: relative;
+      overflow: hidden;
+      background: var(--color-surface);
+    }
+
+    .hero__img-wrap {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Placeholder vizual pentru imagine hero */
+    .hero__placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #131318 0%, #1e1e2a 50%, #131318 100%);
+    }
+
+    .hero__lamp-icon {
+      width: 220px;
+      height: 340px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lamp-body {
+      width: 140px;
+      height: 180px;
+      background: linear-gradient(180deg, #2a2a38 0%, #1a1a26 100%);
+      clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+      border: 1px solid rgba(79, 110, 247, 0.2);
+    }
+
+    .lamp-glow {
+      width: 280px;
+      height: 160px;
+      background: radial-gradient(ellipse at 50% 0%, rgba(79, 110, 247, 0.18) 0%, transparent 70%);
+      margin-top: -10px;
+    }
+
+    .lamp-cord {
+      width: 2px;
+      height: 80px;
+      background: rgba(242, 242, 245, 0.2);
+      order: -1;
+    }
+
+    .hero__badge {
+      position: absolute;
+      bottom: 40px;
+      right: 40px;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .hero__badge-num {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      line-height: 1;
+    }
+
+    .hero__badge-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
+    }
+
+    /* ── CATEGORII ────────────────────────────────────────── */
+    .categories {
+      padding: 120px 80px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 56px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--color-text-primary);
+    }
+
+    .categories__grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 300px 220px;
+      gap: 16px;
+    }
+
+    .cat-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+      background: var(--color-surface);
+      cursor: pointer;
+      border: 1px solid var(--color-border);
+      transition: border-color 0.3s ease;
+    }
+
+    .cat-card:hover {
+      border-color: var(--color-accent);
+    }
+
+    .cat-card--large {
+      grid-row: span 2;
+    }
+
+    .cat-card__bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #131318, #1e1e2a);
+      transition: transform 0.6s ease;
+    }
+
+    .cat-card:hover .cat-card__bg {
+      transform: scale(1.04);
+    }
+
+    /* Simboluri vizuale per categorie */
+    .cat-card__visual {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.4;
+    }
+
+    .cat-card__visual svg {
+      width: 80px;
+      height: 80px;
+      stroke: var(--color-accent);
+      fill: none;
+      stroke-width: 1;
+    }
+
+    .cat-card--large .cat-card__visual svg {
+      width: 140px;
+      height: 140px;
+    }
+
+    .cat-card__content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 28px 28px 24px;
+      background: linear-gradient(0deg, rgba(10,10,14,0.9) 0%, transparent 100%);
+    }
+
+    .cat-card__label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 6px;
+    }
+
+    .cat-card__name {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .cat-card--large .cat-card__name {
+      font-size: 2rem;
+    }
+
+    /* ── PRODUSE FEATURED ─────────────────────────────────── */
+    .featured {
+      padding: 80px 80px 120px;
+      background: var(--color-surface);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 56px;
+    }
+
+    .product-card {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      group: true;
+    }
+
+    .product-card__img {
+      aspect-ratio: 3/4;
+      background: var(--color-bg);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 16px;
+      border: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.3s ease;
+    }
+
+    .product-card:hover .product-card__img {
+      border-color: rgba(79, 110, 247, 0.4);
+    }
+
+    .product-card__img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, #131318, #1a1a24);
+    }
+
+    .product-card__img-placeholder svg {
+      width: 60px;
+      height: 60px;
+      stroke: rgba(79, 110, 247, 0.3);
+      fill: none;
+      stroke-width: 1;
+    }
+
+    .product-card__quick {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.25s ease;
+    }
+
+    .product-card:hover .product-card__quick {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .product-card__tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--color-accent);
+      color: white;
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+
+    .product-card__name {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--color-text-primary);
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+    }
+
+    .product-card__meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .product-card__price {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--color-accent);
+    }
+
+    .product-card__cat {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--color-text-secondary);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── BANNER EDITORIAL ─────────────────────────────────── */
+    .editorial {
+      padding: 0 80px 120px;
+    }
+
+    .editorial__inner {
+      background: var(--color-surface);
+      border-radius: 4px;
+      border: 1px solid var(--color-border);
+      padding: 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .editorial__tag {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 20px;
+    }
+
+    .editorial__title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3vw, 3rem);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: var(--color-text-primary);
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+
+    .editorial__text {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--color-text-secondary);
+      margin-bottom: 36px;
+    }
+
+    .editorial__stats {
+      display: flex;
+      gap: 48px;
+    }
+
+    .stat__num {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .stat__label {
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .editorial__visual {
+      aspect-ratio: 1;
+      background: linear-gradient(135deg, #131318, #1a1a26);
+      border-radius: 4px;
+      border: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .editorial__glow {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(79,110,247,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .editorial__visual svg {
+      width: 120px;
+      height: 120px;
+      stroke: rgba(79, 110, 247, 0.5);
+      fill: none;
+      stroke-width: 0.8;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── NEWSLETTER ───────────────────────────────────────── */
+    .newsletter {
+      padding: 0 80px 160px;
+    }
+
+    .newsletter__inner {
+      text-align: center;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .newsletter__title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: var(--color-text-primary);
+      margin-bottom: 16px;
+    }
+
+    .newsletter__sub {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    .newsletter__form {
+      display: flex;
+      gap: 12px;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .newsletter__input {
+      flex: 1;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      padding: 14px 20px;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--color-text-primary);
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .newsletter__input::placeholder {
+      color: var(--color-text-secondary);
+    }
+
+    .newsletter__input:focus {
+      border-color: var(--color-accent);
+    }
+
+    /* ── RESPONSIVE ───────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .hero,
+      .categories__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero__left {
+        padding: 60px 40px;
+      }
+
+      .hero__right {
+        height: 60vw;
+        max-height: 420px;
+      }
+
+      .categories,
+      .featured,
+      .editorial,
+      .newsletter {
+        padding-left: 40px;
+        padding-right: 40px;
+      }
+
+      .categories__grid {
+        grid-template-rows: auto;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .cat-card--large {
+        grid-row: auto;
+        grid-column: span 2;
+      }
+
+      .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .editorial__inner {
+        grid-template-columns: 1fr;
+        padding: 48px;
+        gap: 40px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero__left {
+        padding: 48px 24px;
+      }
+
+      .categories,
+      .featured,
+      .editorial,
+      .newsletter {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+
+      .categories__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cat-card--large {
+        grid-column: auto;
+      }
+
+      .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .editorial__inner {
+        padding: 32px 24px;
+      }
+
+      .editorial__stats {
+        gap: 24px;
+      }
+
+      .newsletter__form {
+        flex-direction: column;
+      }
+
+      .hero__actions {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAVBAR ─────────────────────────────────────────── -->
+  <header class="navbar" id="navbar">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">LUMIS</a>
+
+      <nav class="navbar__nav">
+        <a href="catalog.html" class="navbar__link">Catalog</a>
+        <a href="catalog.html?cat=lustre" class="navbar__link">Lustre</a>
+        <a href="catalog.html?cat=lampi" class="navbar__link">Lămpi</a>
+        <a href="catalog.html?cat=candelabre" class="navbar__link">Candelabre</a>
+        <a href="despre.html" class="navbar__link">Despre</a>
+      </nav>
+
+      <div class="navbar__actions">
+        <a href="catalog.html" class="navbar__icon" aria-label="Căutare">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+        </a>
+        <a href="#" class="navbar__icon" aria-label="Coș">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+        </a>
+        <button class="navbar__burger" id="burger" aria-label="Meniu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="navbar__mobile" id="mobileMenu">
+      <a href="catalog.html" class="navbar__mobile-link">Catalog</a>
+      <a href="catalog.html?cat=lustre" class="navbar__mobile-link">Lustre</a>
+      <a href="catalog.html?cat=lampi" class="navbar__mobile-link">Lămpi</a>
+      <a href="catalog.html?cat=candelabre" class="navbar__mobile-link">Candelabre</a>
+      <a href="despre.html" class="navbar__mobile-link">Despre</a>
+      <a href="contact.html" class="navbar__mobile-link">Contact</a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ── HERO ─────────────────────────────────────────── -->
+    <section class="hero">
+      <div class="hero__left">
+        <p class="hero__eyebrow">Iluminat de interior · Design modern</p>
+        <h1 class="hero__title">
+          Lumina care<br>
+          <em>definește</em><br>
+          spațiul tău
+        </h1>
+        <p class="hero__sub">
+          Lămpi, lustre și candelabre selectate pentru locuințe care nu se mulțumesc cu mediocrul. Livrare în toată România.
+        </p>
+        <div class="hero__actions">
+          <a href="catalog.html" class="btn btn--primary">Explorează colecția</a>
+          <a href="despre.html" class="btn btn--ghost">Despre LUMIS</a>
+        </div>
+      </div>
+
+      <div class="hero__right">
+        <div class="hero__img-wrap">
+          <div class="hero__placeholder">
+            <!-- Înlocuiește cu: <img src="assets/images/hero.jpg" alt="Lustră modernă" /> -->
+            <div class="hero__lamp-icon">
+              <div class="lamp-cord"></div>
+              <div class="lamp-body"></div>
+              <div class="lamp-glow"></div>
+            </div>
+          </div>
+        </div>
+        <div class="hero__badge">
+          <span class="hero__badge-num">200+</span>
+          <span class="hero__badge-label">Produse disponibile</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CATEGORII ─────────────────────────────────────── -->
+    <section class="categories">
+      <div class="section-header">
+        <h2 class="section-title">Colecții</h2>
+        <a href="catalog.html" class="link-arrow">Vezi tot <span>→</span></a>
+      </div>
+
+      <div class="categories__grid">
+
+        <!-- Lustre — mare -->
+        <a href="catalog.html?cat=lustre" class="cat-card cat-card--large">
+          <div class="cat-card__bg"></div>
+          <div class="cat-card__visual">
+            <svg viewBox="0 0 100 100">
+              <line x1="50" y1="0" x2="50" y2="20"/>
+              <ellipse cx="50" cy="35" rx="30" ry="8"/>
+              <path d="M20 35 Q15 60 10 75 Q50 90 90 75 Q85 60 80 35"/>
+              <circle cx="30" cy="68" r="3"/>
+              <circle cx="50" cy="74" r="3"/>
+              <circle cx="70" cy="68" r="3"/>
+            </svg>
+          </div>
+          <div class="cat-card__content">
+            <p class="cat-card__label">Colecție</p>
+            <h3 class="cat-card__name">Lustre</h3>
+          </div>
+        </a>
+
+        <!-- Lămpi de podea -->
+        <a href="catalog.html?cat=lampi" class="cat-card">
+          <div class="cat-card__bg"></div>
+          <div class="cat-card__visual">
+            <svg viewBox="0 0 100 100">
+              <line x1="50" y1="80" x2="50" y2="100"/>
+              <rect x="35" y="75" width="30" height="6" rx="2"/>
+              <line x1="50" y1="30" x2="50" y2="75"/>
+              <path d="M25 30 Q25 10 50 5 Q75 10 75 30 Z"/>
+            </svg>
+          </div>
+          <div class="cat-card__content">
+            <p class="cat-card__label">Colecție</p>
+            <h3 class="cat-card__name">Lămpi</h3>
+          </div>
+        </a>
+
+        <!-- Candelabre -->
+        <a href="catalog.html?cat=candelabre" class="cat-card">
+          <div class="cat-card__bg"></div>
+          <div class="cat-card__visual">
+            <svg viewBox="0 0 100 100">
+              <line x1="50" y1="0" x2="50" y2="20"/>
+              <circle cx="50" cy="22" r="4"/>
+              <line x1="50" y1="22" x2="20" y2="45"/>
+              <line x1="50" y1="22" x2="50" y2="50"/>
+              <line x1="50" y1="22" x2="80" y2="45"/>
+              <circle cx="20" cy="47" r="3"/>
+              <circle cx="50" cy="52" r="3"/>
+              <circle cx="80" cy="47" r="3"/>
+            </svg>
+          </div>
+          <div class="cat-card__content">
+            <p class="cat-card__label">Colecție</p>
+            <h3 class="cat-card__name">Candelabre</h3>
+          </div>
+        </a>
+
+        <!-- Aplice -->
+        <a href="catalog.html?cat=aplice" class="cat-card">
+          <div class="cat-card__bg"></div>
+          <div class="cat-card__visual">
+            <svg viewBox="0 0 100 100">
+              <rect x="0" y="40" width="12" height="30" rx="2"/>
+              <path d="M12 45 Q20 30 35 35 Q50 40 50 55 Q50 70 35 70 Q20 70 12 65 Z"/>
+            </svg>
+          </div>
+          <div class="cat-card__content">
+            <p class="cat-card__label">Colecție</p>
+            <h3 class="cat-card__name">Aplice</h3>
+          </div>
+        </a>
+
+        <!-- Plafoniere -->
+        <a href="catalog.html?cat=plafoniere" class="cat-card">
+          <div class="cat-card__bg"></div>
+          <div class="cat-card__visual">
+            <svg viewBox="0 0 100 100">
+              <ellipse cx="50" cy="30" rx="38" ry="12"/>
+              <path d="M12 30 Q12 60 50 65 Q88 60 88 30"/>
+              <circle cx="50" cy="50" r="5"/>
+            </svg>
+          </div>
+          <div class="cat-card__content">
+            <p class="cat-card__label">Colecție</p>
+            <h3 class="cat-card__name">Plafoniere</h3>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ── PRODUSE FEATURED ───────────────────────────────── -->
+    <section class="featured">
+      <div class="section-header">
+        <h2 class="section-title">Produse populare</h2>
+        <a href="catalog.html" class="link-arrow">Catalog complet <span>→</span></a>
+      </div>
+
+      <div class="products-grid">
+
+        <!-- Produs 1 -->
+        <article class="product-card">
+          <div class="product-card__img">
+            <span class="product-card__tag">Nou</span>
+            <div class="product-card__img-placeholder">
+              <!-- <img src="assets/images/produs-1.jpg" alt="Lustră Orbit" /> -->
+              <svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="20"/><line x1="40" y1="0" x2="40" y2="20"/><circle cx="40" cy="20" r="3"/></svg>
+            </div>
+            <div class="product-card__quick">
+              <a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a>
+            </div>
+          </div>
+          <h3 class="product-card__name">Lustră Orbit</h3>
+          <div class="product-card__meta">
+            <span class="product-card__price">649 Lei</span>
+            <span class="product-card__cat">Lustre</span>
+          </div>
+        </article>
+
+        <!-- Produs 2 -->
+        <article class="product-card">
+          <div class="product-card__img">
+            <div class="product-card__img-placeholder">
+              <svg viewBox="0 0 80 80"><path d="M15 20 Q15 5 40 2 Q65 5 65 20 Z"/><line x1="40" y1="20" x2="40" y2="80"/></svg>
+            </div>
+            <div class="product-card__quick">
+              <a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a>
+            </div>
+          </div>
+          <h3 class="product-card__name">Lampă Arc Slim</h3>
+          <div class="product-card__meta">
+            <span class="product-card__price">429 Lei</span>
+            <span class="product-card__cat">Lămpi</span>
+          </div>
+        </article>
+
+        <!-- Produs 3 -->
+        <article class="product-card">
+          <div class="product-card__img">
+            <span class="product-card__tag">-15%</span>
+            <div class="product-card__img-placeholder">
+              <svg viewBox="0 0 80 80"><line x1="40" y1="0" x2="40" y2="15"/><circle cx="40" cy="18" r="4"/><line x1="40" y1="18" x2="15" y2="40"/><line x1="40" y1="18" x2="65" y2="40"/><line x1="40" y1="18" x2="40" y2="45"/><circle cx="15" cy="43" r="3"/><circle cx="65" cy="43" r="3"/><circle cx="40" cy="48" r="3"/></svg>
+            </div>
+            <div class="product-card__quick">
+              <a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a>
+            </div>
+          </div>
+          <h3 class="product-card__name">Candelabru Crystal</h3>
+          <div class="product-card__meta">
+            <span class="product-card__price">1.199 Lei</span>
+            <span class="product-card__cat">Candelabre</span>
+          </div>
+        </article>
+
+        <!-- Produs 4 -->
+        <article class="product-card">
+          <div class="product-card__img">
+            <div class="product-card__img-placeholder">
+              <svg viewBox="0 0 80 80"><rect x="5" y="35" width="10" height="25" rx="2"/><path d="M15 38 Q22 25 35 30 Q48 35 48 45 Q48 58 35 58 Q22 58 15 52 Z"/></svg>
+            </div>
+            <div class="product-card__quick">
+              <a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a>
+            </div>
+          </div>
+          <h3 class="product-card__name">Aplică Wall Wave</h3>
+          <div class="product-card__meta">
+            <span class="product-card__price">289 Lei</span>
+            <span class="product-card__cat">Aplice</span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ── EDITORIAL ─────────────────────────────────────── -->
+    <section class="editorial">
+      <div class="editorial__inner">
+        <div>
+          <p class="editorial__tag">De ce LUMIS</p>
+          <h2 class="editorial__title">Design ales.<br>Lumină simțită.</h2>
+          <p class="editorial__text">
+            Nu vindem tot ce există pe piață. Fiecare produs din catalogul LUMIS trece printr-o selecție bazată pe design, calitate a materialelor și raportul dintre preț și valoare reală.
+          </p>
+          <div class="editorial__stats">
+            <div class="stat">
+              <div class="stat__num">200+</div>
+              <div class="stat__label">Produse</div>
+            </div>
+            <div class="stat">
+              <div class="stat__num">48h</div>
+              <div class="stat__label">Livrare</div>
+            </div>
+            <div class="stat">
+              <div class="stat__num">30</div>
+              <div class="stat__label">Zile retur</div>
+            </div>
+          </div>
+        </div>
+        <div class="editorial__visual">
+          <div class="editorial__glow"></div>
+          <svg viewBox="0 0 120 140">
+            <line x1="60" y1="0" x2="60" y2="25"/>
+            <ellipse cx="60" cy="40" rx="38" ry="10"/>
+            <path d="M22 40 Q18 75 12 95 Q60 115 108 95 Q102 75 98 40"/>
+            <circle cx="36" cy="85" r="4"/>
+            <circle cx="60" cy="92" r="4"/>
+            <circle cx="84" cy="85" r="4"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── NEWSLETTER ─────────────────────────────────────── -->
+    <section class="newsletter">
+      <div class="newsletter__inner">
+        <h2 class="newsletter__title">Primești primul<br>ofertele noi</h2>
+        <p class="newsletter__sub">
+          Noutăți de colecție, reduceri exclusive și ghiduri de iluminat interior — direct în inbox.
+        </p>
+        <div class="newsletter__form">
+          <input
+            type="email"
+            class="newsletter__input"
+            placeholder="adresa@email.ro"
+            aria-label="Adresă email"
+          />
+          <button class="btn btn--primary" type="button">Abonare</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── FOOTER ─────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <a href="index.html" class="footer__logo">LUMIS</a>
+        <p class="footer__tagline">Iluminat de interior.<br>Livrat în România.</p>
+      </div>
+
+      <nav class="footer__nav">
+        <div class="footer__col">
+          <h4 class="footer__col-title">Colecții</h4>
+          <a href="catalog.html?cat=lustre">Lustre</a>
+          <a href="catalog.html?cat=lampi">Lămpi</a>
+          <a href="catalog.html?cat=candelabre">Candelabre</a>
+          <a href="catalog.html?cat=aplice">Aplice</a>
+          <a href="catalog.html?cat=plafoniere">Plafoniere</a>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__col-title">Informații</h4>
+          <a href="despre.html">Despre noi</a>
+          <a href="contact.html">Contact</a>
+          <a href="#">Livrare & retur</a>
+          <a href="#">Termeni și condiții</a>
+          <a href="#">Politică confidențialitate</a>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__col-title">Contact</h4>
+          <a href="mailto:contact@lumis.ro">contact@lumis.ro</a>
+          <a href="tel:+40700000000">0700 000 000</a>
+          <p style="color:var(--color-text-secondary);font-size:0.85rem;margin-top:8px;">Lun–Vin, 9:00–18:00</p>
+        </div>
+      </nav>
+    </div>
+
+    <div class="footer__bottom">
+      <p>© 2025 LUMIS. Toate drepturile rezervate.</p>
+      <p>Realizat cu ♥ în România</p>
+    </div>
+  </footer>
+
+  <script src="js/nav.js"></script>
+</body>
+</html>
