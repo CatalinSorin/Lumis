@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catalog — LUMIS</title>
+  <meta name="description" content="Catalog complet de lustre, candelabre, lămpi și plafoniere LUMIS." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/main.css" />
+
+  <style>
+    /* ── PAGE HEADER ──────────────────────────────────────── */
+    .page-header {
+      padding: 160px 80px 60px;
+    }
+
+    .page-header__eyebrow {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 16px;
+    }
+
+    .page-header__title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: var(--color-text-primary);
+      margin-bottom: 12px;
+    }
+
+    .page-header__sub {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: var(--color-text-secondary);
+      max-width: 480px;
+    }
+
+    /* ── TOOLBAR ──────────────────────────────────────────── */
+    .toolbar {
+      padding: 0 80px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: 48px;
+    }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding-bottom: 24px;
+    }
+
+    .filter-chip {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      padding: 9px 18px;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+
+    .filter-chip:hover {
+      color: var(--color-text-primary);
+      border-color: rgba(242, 242, 245, 0.2);
+    }
+
+    .filter-chip.active {
+      background: var(--color-accent);
+      color: #fff;
+      border-color: var(--color-accent);
+    }
+
+    .toolbar__right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 24px;
+    }
+
+    .results-count {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+      white-space: nowrap;
+    }
+
+    .sort-select {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--color-text-primary);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      padding: 9px 16px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236B6B7A' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+
+    /* ── GRID ─────────────────────────────────────────────── */
+    .catalog-grid {
+      padding: 0 80px 120px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 28px 24px;
+    }
+
+    .product-card {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .product-card__img {
+      aspect-ratio: 3/4;
+      background: var(--color-surface);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 16px;
+      border: 1px solid var(--color-border);
+      transition: border-color var(--transition);
+    }
+
+    .product-card:hover .product-card__img {
+      border-color: rgba(79, 110, 247, 0.4);
+    }
+
+    .product-card__img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, #131318, #1a1a24);
+    }
+
+    .product-card__img-placeholder svg {
+      width: 58px;
+      height: 58px;
+      stroke: rgba(79, 110, 247, 0.3);
+      fill: none;
+      stroke-width: 1;
+    }
+
+    .product-card__tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--color-accent);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 2px;
+      z-index: 1;
+    }
+
+    .product-card__tag--sold {
+      background: var(--color-text-secondary);
+    }
+
+    .product-card__quick {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.25s ease;
+    }
+
+    .product-card:hover .product-card__quick {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .product-card__name {
+      font-family: var(--font-display);
+      font-size: 0.98rem;
+      font-weight: 500;
+      color: var(--color-text-primary);
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .product-card__specs {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--color-text-secondary);
+      margin-bottom: 10px;
+      letter-spacing: 0.02em;
+    }
+
+    .product-card__meta {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-top: auto;
+    }
+
+    .product-card__price-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .product-card__price {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--color-accent);
+    }
+
+    .product-card__price-old {
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      color: var(--color-text-secondary);
+      text-decoration: line-through;
+    }
+
+    .product-card__cat {
+      font-family: var(--font-body);
+      font-size: 10px;
+      color: var(--color-text-secondary);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ── EMPTY STATE ──────────────────────────────────────── */
+    .empty-state {
+      display: none;
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .empty-state.visible {
+      display: block;
+    }
+
+    .empty-state p {
+      font-family: var(--font-body);
+      color: var(--color-text-secondary);
+      font-size: 0.95rem;
+    }
+
+    /* ── RESPONSIVE ───────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .page-header,
+      .toolbar,
+      .catalog-grid {
+        padding-left: 40px;
+        padding-right: 40px;
+      }
+
+      .page-header {
+        padding-top: 120px;
+      }
+
+      .catalog-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .catalog-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px 16px;
+      }
+
+      .toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .toolbar__right {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .page-header,
+      .toolbar,
+      .catalog-grid {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+
+      .page-header {
+        padding-top: 100px;
+        padding-bottom: 40px;
+      }
+
+      .filters {
+        gap: 8px;
+      }
+
+      .filter-chip {
+        font-size: 0.75rem;
+        padding: 8px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAVBAR ─────────────────────────────────────────── -->
+  <header class="navbar" id="navbar">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">LUMIS</a>
+
+      <nav class="navbar__nav">
+        <a href="catalog.html" class="navbar__link">Catalog</a>
+        <a href="catalog.html?cat=lustre" class="navbar__link">Lustre</a>
+        <a href="catalog.html?cat=lampi" class="navbar__link">Lămpi</a>
+        <a href="catalog.html?cat=candelabre" class="navbar__link">Candelabre</a>
+        <a href="despre.html" class="navbar__link">Despre</a>
+      </nav>
+
+      <div class="navbar__actions">
+        <a href="catalog.html" class="navbar__icon" aria-label="Căutare">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+        </a>
+        <a href="#" class="navbar__icon" aria-label="Coș">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+        </a>
+        <button class="navbar__burger" id="burger" aria-label="Meniu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="navbar__mobile" id="mobileMenu">
+      <a href="catalog.html" class="navbar__mobile-link">Catalog</a>
+      <a href="catalog.html?cat=lustre" class="navbar__mobile-link">Lustre</a>
+      <a href="catalog.html?cat=lampi" class="navbar__mobile-link">Lămpi</a>
+      <a href="catalog.html?cat=candelabre" class="navbar__mobile-link">Candelabre</a>
+      <a href="despre.html" class="navbar__mobile-link">Despre</a>
+      <a href="contact.html" class="navbar__mobile-link">Contact</a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ── PAGE HEADER ────────────────────────────────────── -->
+    <section class="page-header">
+      <p class="page-header__eyebrow">Catalog complet</p>
+      <h1 class="page-header__title">Toate produsele</h1>
+      <p class="page-header__sub">Lustre, candelabre, plafoniere și aplice — selecție curentă din colecția LUMIS.</p>
+    </section>
+
+    <!-- ── TOOLBAR ────────────────────────────────────────── -->
+    <div class="toolbar">
+      <div class="filters" id="filters">
+        <button class="filter-chip active" data-filter="all">Toate</button>
+        <button class="filter-chip" data-filter="lustre">Lustre</button>
+        <button class="filter-chip" data-filter="candelabre">Candelabre</button>
+        <button class="filter-chip" data-filter="plafoniere">Plafoniere</button>
+      </div>
+
+      <div class="toolbar__right">
+        <span class="results-count" id="resultsCount">24 produse</span>
+        <select class="sort-select" id="sortSelect">
+          <option value="default">Recomandate</option>
+          <option value="price-asc">Preț: mic spre mare</option>
+          <option value="price-desc">Preț: mare spre mic</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- ── GRID PRODUSE ───────────────────────────────────── -->
+    <section class="catalog-grid" id="catalogGrid">
+
+      <!-- 1 -->
+      <article class="product-card" data-cat="candelabre" data-price="610.87">
+        <div class="product-card__img">
+          <span class="product-card__tag">-42%</span>
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><line x1="40" y1="0" x2="40" y2="15"/><circle cx="40" cy="18" r="4"/><line x1="40" y1="18" x2="15" y2="40"/><line x1="40" y1="18" x2="65" y2="40"/><line x1="40" y1="18" x2="40" y2="45"/><circle cx="15" cy="43" r="3"/><circle cx="65" cy="43" r="3"/><circle cx="40" cy="48" r="3"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Candelabru Brigitte Crystal Gold D500</h3>
+        <p class="product-card__specs">Cristal · Auriu · D500mm</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">610,87 Lei</span>
+            <span class="product-card__price-old">1.051,17 Lei</span>
+          </div>
+          <span class="product-card__cat">Candelabre</span>
+        </div>
+      </article>
+
+      <!-- 2 -->
+      <article class="product-card" data-cat="lustre" data-price="649.35">
+        <div class="product-card__img">
+          <span class="product-card__tag">-24%</span>
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="20"/><line x1="40" y1="0" x2="40" y2="20"/><circle cx="40" cy="20" r="3"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Lustră LED Aurie Cornelia, 240W, Cercuri, WiFi</h3>
+        <p class="product-card__specs">240W · Telecomandă WiFi · Dimabil</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">649,35 Lei</span>
+            <span class="product-card__price-old">849,15 Lei</span>
+          </div>
+          <span class="product-card__cat">Lustre</span>
+        </div>
+      </article>
+
+      <!-- 3 -->
+      <article class="product-card" data-cat="candelabre" data-price="370.69">
+        <div class="product-card__img">
+          <span class="product-card__tag">-50%</span>
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><line x1="40" y1="0" x2="40" y2="20"/><ellipse cx="40" cy="30" rx="22" ry="6"/><path d="M18 30 Q15 50 12 60 Q40 70 68 60 Q65 50 62 30"/><circle cx="25" cy="55" r="2.5"/><circle cx="40" cy="58" r="2.5"/><circle cx="55" cy="55" r="2.5"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Candelabru Cristal pe Lanț Negru D300</h3>
+        <p class="product-card__specs">3×E14 · 40W · D300mm</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">370,69 Lei</span>
+            <span class="product-card__price-old">738,15 Lei</span>
+          </div>
+          <span class="product-card__cat">Candelabre</span>
+        </div>
+      </article>
+
+      <!-- 4 -->
+      <article class="product-card" data-cat="lustre" data-price="609.39">
+        <div class="product-card__img">
+          <span class="product-card__tag">-28%</span>
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><circle cx="40" cy="30" r="22"/><circle cx="40" cy="30" r="14"/><circle cx="40" cy="30" r="6"/><line x1="40" y1="0" x2="40" y2="8"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Lustră LED Aurie Hestia, 3 Cercuri</h3>
+        <p class="product-card__specs">160W · 50/40/30cm · 3 cercuri</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">609,39 Lei</span>
+            <span class="product-card__price-old">851,37 Lei</span>
+          </div>
+          <span class="product-card__cat">Lustre</span>
+        </div>
+      </article>
+
+      <!-- 5 -->
+      <article class="product-card" data-cat="candelabre" data-price="709.29">
+        <div class="product-card__img">
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><line x1="40" y1="0" x2="40" y2="15"/><circle cx="40" cy="18" r="4"/><line x1="40" y1="18" x2="15" y2="40"/><line x1="40" y1="18" x2="65" y2="40"/><line x1="40" y1="18" x2="40" y2="45"/><circle cx="15" cy="43" r="3"/><circle cx="65" cy="43" r="3"/><circle cx="40" cy="48" r="3"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Candelabru Cristal Auriu Indira 11×E14</h3>
+        <p class="product-card__specs">11×E14 · D600mm</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">709,29 Lei</span>
+            <span class="product-card__price-old">901,32 Lei</span>
+          </div>
+          <span class="product-card__cat">Candelabre</span>
+        </div>
+      </article>
+
+      <!-- 6 -->
+      <article class="product-card" data-cat="lustre" data-price="354.09">
+        <div class="product-card__img">
+          <span class="product-card__tag">-28%</span>
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><line x1="40" y1="0" x2="40" y2="20"/><circle cx="25" cy="30" r="6"/><circle cx="55" cy="30" r="6"/><circle cx="40" cy="40" r="6"/><circle cx="25" cy="50" r="6"/><circle cx="55" cy="50" r="6"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Lustră Neagră cu 7 Glob Alb Mat G9</h3>
+        <p class="product-card__specs">7 globuri · G9 · Negru mat</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">354,09 Lei</span>
+            <span class="product-card__price-old">491,73 Lei</span>
+          </div>
+          <span class="product-card__cat">Lustre</span>
+        </div>
+      </article>
+
+      <!-- 7 -->
+      <article class="product-card" data-cat="lustre" data-price="675.99">
+        <div class="product-card__img">
+          <span class="product-card__tag">-28%</span>
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><rect x="15" y="15" width="20" height="20"/><rect x="45" y="15" width="20" height="20"/><rect x="15" y="45" width="20" height="20"/><rect x="45" y="45" width="20" height="20"/><line x1="40" y1="0" x2="40" y2="10"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Lustră Maro 4 Pătrate, Modernă, Elegantă</h3>
+        <p class="product-card__specs">920W · 4 pătrate · Maro</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">675,99 Lei</span>
+            <span class="product-card__price-old">940,17 Lei</span>
+          </div>
+          <span class="product-card__cat">Lustre</span>
+        </div>
+      </article>
+
+      <!-- 8 -->
+      <article class="product-card" data-cat="plafoniere" data-price="336.33">
+        <div class="product-card__img">
+          <span class="product-card__tag">-28%</span>
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><ellipse cx="40" cy="30" rx="30" ry="10"/><path cx="40" d="M10 30 Q10 55 40 60 Q70 55 70 30"/><circle cx="40" cy="42" r="4"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Plafonieră LED Xenia Pisică 65W + Telecomandă</h3>
+        <p class="product-card__specs">65W · Telecomandă · Model copii</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">336,33 Lei</span>
+            <span class="product-card__price-old">467,31 Lei</span>
+          </div>
+          <span class="product-card__cat">Plafoniere</span>
+        </div>
+      </article>
+
+      <!-- 9 -->
+      <article class="product-card" data-cat="lustre" data-price="1088.91">
+        <div class="product-card__img">
+          <span class="product-card__tag">-28%</span>
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><circle cx="40" cy="25" r="18"/><circle cx="40" cy="42" r="13"/><circle cx="40" cy="55" r="8"/><line x1="40" y1="0" x2="40" y2="7"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Lustră Suspendată LED Lysander, 3 Cercuri</h3>
+        <p class="product-card__specs">D60/50/40cm · Telecomandă · Dimabil</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">1.088,91 Lei</span>
+            <span class="product-card__price-old">1.512,93 Lei</span>
+          </div>
+          <span class="product-card__cat">Lustre</span>
+        </div>
+      </article>
+
+      <!-- 10 -->
+      <article class="product-card" data-cat="lustre" data-price="690.42">
+        <div class="product-card__img">
+          <span class="product-card__tag">-22%</span>
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><line x1="40" y1="0" x2="40" y2="20"/><rect x="20" y="20" width="40" height="35" rx="3"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Lustră LED Neagra Eleya 74W + Telecomandă</h3>
+        <p class="product-card__specs">74W · Telecomandă · Negru</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">690,42 Lei</span>
+            <span class="product-card__price-old">880,23 Lei</span>
+          </div>
+          <span class="product-card__cat">Lustre</span>
+        </div>
+      </article>
+
+      <!-- 11 -->
+      <article class="product-card" data-cat="candelabre" data-price="829.17">
+        <div class="product-card__img">
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><line x1="40" y1="0" x2="40" y2="15"/><circle cx="40" cy="18" r="4"/><line x1="40" y1="18" x2="15" y2="40"/><line x1="40" y1="18" x2="65" y2="40"/><line x1="40" y1="18" x2="40" y2="45"/><circle cx="15" cy="43" r="3"/><circle cx="65" cy="43" r="3"/><circle cx="40" cy="48" r="3"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Candelabru Auriu Myruna D550</h3>
+        <p class="product-card__specs">E14×12 · D550mm</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">829,17 Lei</span>
+            <span class="product-card__price-old">1.077,81 Lei</span>
+          </div>
+          <span class="product-card__cat">Candelabre</span>
+        </div>
+      </article>
+
+      <!-- 12 -->
+      <article class="product-card" data-cat="candelabre" data-price="636.03">
+        <div class="product-card__img">
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><circle cx="40" cy="35" r="22"/><circle cx="40" cy="35" r="14"/><circle cx="40" cy="35" r="6"/><line x1="40" y1="0" x2="40" y2="10"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Candelabru Cristal LED Gracia, 45cm</h3>
+        <p class="product-card__specs">45cm · Auriu · LED</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">636,03 Lei</span>
+            <span class="product-card__price-old">793,65 Lei</span>
+          </div>
+          <span class="product-card__cat">Candelabre</span>
+        </div>
+      </article>
+
+      <!-- 13 -->
+      <article class="product-card" data-cat="lustre" data-price="437.34">
+        <div class="product-card__img">
+          <span class="product-card__tag">-28%</span>
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><rect x="15" y="20" width="50" height="15" rx="3"/><circle cx="25" cy="27" r="4"/><circle cx="40" cy="27" r="4"/><circle cx="55" cy="27" r="4"/><line x1="40" y1="0" x2="40" y2="20"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Lustră LED Jovita, 3 Pătrate + Telecomandă</h3>
+        <p class="product-card__specs">WiFi 2.4G · 3 pătrate</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">457,27 Lei</span>
+            <span class="product-card__price-old">650,56 Lei</span>
+          </div>
+          <span class="product-card__cat">Lustre</span>
+        </div>
+      </article>
+
+      <!-- 14 -->
+      <article class="product-card" data-cat="lustre" data-price="310.37">
+        <div class="product-card__img">
+          <span class="product-card__tag">-36%</span>
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="18"/><line x1="40" y1="0" x2="40" y2="20"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Lustră LED 40CM Sage, Telecomandă WiFi</h3>
+        <p class="product-card__specs">108W · D40cm · WiFi</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">310,37 Lei</span>
+            <span class="product-card__price-old">484,06 Lei</span>
+          </div>
+          <span class="product-card__cat">Lustre</span>
+        </div>
+      </article>
+
+      <!-- 15 -->
+      <article class="product-card" data-cat="candelabre" data-price="1396.38">
+        <div class="product-card__img">
+          <span class="product-card__tag">-28%</span>
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><circle cx="20" cy="20" r="5"/><circle cx="40" cy="15" r="5"/><circle cx="60" cy="20" r="5"/><circle cx="20" cy="40" r="5"/><circle cx="40" cy="35" r="5"/><circle cx="60" cy="40" r="5"/><circle cx="30" cy="58" r="5"/><circle cx="50" cy="58" r="5"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Lustră LED Modernă 12 Olive 72W</h3>
+        <p class="product-card__specs">72W · 12 surse · Lumină neutră</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">1.396,38 Lei</span>
+            <span class="product-card__price-old">1.940,28 Lei</span>
+          </div>
+          <span class="product-card__cat">Candelabre</span>
+        </div>
+      </article>
+
+      <!-- 16 -->
+      <article class="product-card" data-cat="lustre" data-price="437.34">
+        <div class="product-card__img">
+          <span class="product-card__tag">-28%</span>
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><circle cx="40" cy="30" r="20"/><line x1="40" y1="0" x2="40" y2="10"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Lustră Suspendată Elowen, Aurie 48W</h3>
+        <p class="product-card__specs">48W · D400mm · Auriu</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">437,34 Lei</span>
+            <span class="product-card__price-old">607,17 Lei</span>
+          </div>
+          <span class="product-card__cat">Lustre</span>
+        </div>
+      </article>
+
+      <!-- 17 -->
+      <article class="product-card" data-cat="candelabre" data-price="637.14">
+        <div class="product-card__img">
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><circle cx="20" cy="25" r="6"/><circle cx="35" cy="20" r="6"/><circle cx="50" cy="25" r="6"/><circle cx="60" cy="35" r="6"/><circle cx="25" cy="45" r="6"/><circle cx="45" cy="48" r="6"/><line x1="40" y1="0" x2="40" y2="10"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Lustră Elegantă Arabella, 13 Globuri Aurii</h3>
+        <p class="product-card__specs">104W · 13 globuri · Auriu</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">637,14 Lei</span>
+            <span class="product-card__price-old">885,78 Lei</span>
+          </div>
+          <span class="product-card__cat">Candelabre</span>
+        </div>
+      </article>
+
+      <!-- 18 -->
+      <article class="product-card" data-cat="candelabre" data-price="649.35">
+        <div class="product-card__img">
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><line x1="40" y1="0" x2="40" y2="15"/><circle cx="40" cy="18" r="4"/><line x1="40" y1="18" x2="15" y2="40"/><line x1="40" y1="18" x2="65" y2="40"/><line x1="40" y1="18" x2="40" y2="45"/><circle cx="15" cy="43" r="3"/><circle cx="65" cy="43" r="3"/><circle cx="40" cy="48" r="3"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Candelabru Auriu Kaline D450mm</h3>
+        <p class="product-card__specs">E14 · D450mm</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">649,35 Lei</span>
+            <span class="product-card__price-old">842,49 Lei</span>
+          </div>
+          <span class="product-card__cat">Candelabre</span>
+        </div>
+      </article>
+
+      <!-- 19 -->
+      <article class="product-card" data-cat="lustre" data-price="570.56">
+        <div class="product-card__img">
+          <span class="product-card__tag">-31%</span>
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><circle cx="40" cy="25" r="14"/><circle cx="40" cy="50" r="20"/><line x1="40" y1="0" x2="40" y2="11"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Lustră LED Neagră Charis, 2 Cercuri</h3>
+        <p class="product-card__specs">40cm + 60cm · Telecomandă</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">570,56 Lei</span>
+            <span class="product-card__price-old">821,60 Lei</span>
+          </div>
+          <span class="product-card__cat">Lustre</span>
+        </div>
+      </article>
+
+      <!-- 20 -->
+      <article class="product-card" data-cat="candelabre" data-price="890.67">
+        <div class="product-card__img">
+          <span class="product-card__tag">-42%</span>
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><line x1="40" y1="0" x2="40" y2="15"/><ellipse cx="40" cy="28" rx="26" ry="7"/><path d="M16 28 Q12 52 8 65 Q40 75 72 65 Q68 52 64 28"/><circle cx="22" cy="58" r="2.5"/><circle cx="40" cy="62" r="2.5"/><circle cx="58" cy="58" r="2.5"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Candelabru Cristal pe Lanț Negru D800</h3>
+        <p class="product-card__specs">12×E14 · D800mm</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">890,67 Lei</span>
+            <span class="product-card__price-old">1.537,35 Lei</span>
+          </div>
+          <span class="product-card__cat">Candelabre</span>
+        </div>
+      </article>
+
+      <!-- 21 -->
+      <article class="product-card" data-cat="candelabre" data-price="796.98">
+        <div class="product-card__img">
+          <span class="product-card__tag">-28%</span>
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><circle cx="40" cy="35" r="24"/><circle cx="40" cy="35" r="15"/><circle cx="40" cy="35" r="6"/><line x1="40" y1="0" x2="40" y2="11"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Candelabru de Cristal Claudia Modern D50CM</h3>
+        <p class="product-card__specs">E14 · D500mm · Modern</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">796,98 Lei</span>
+            <span class="product-card__price-old">1.107,78 Lei</span>
+          </div>
+          <span class="product-card__cat">Candelabre</span>
+        </div>
+      </article>
+
+      <!-- 22 -->
+      <article class="product-card" data-cat="candelabre" data-price="1262.07">
+        <div class="product-card__img">
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><line x1="40" y1="0" x2="40" y2="12"/><ellipse cx="40" cy="22" rx="30" ry="8"/><path d="M14 22 Q10 50 6 68 Q40 80 74 68 Q70 50 66 22"/><circle cx="20" cy="58" r="3"/><circle cx="40" cy="64" r="3"/><circle cx="60" cy="58" r="3"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Candelabru Cristal LED Hadria, 80cm</h3>
+        <p class="product-card__specs">80cm · Auriu · LED</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">1.262,07 Lei</span>
+            <span class="product-card__price-old">1.568,43 Lei</span>
+          </div>
+          <span class="product-card__cat">Candelabre</span>
+        </div>
+      </article>
+
+      <!-- 23 -->
+      <article class="product-card" data-cat="lustre" data-price="117.66">
+        <div class="product-card__img">
+          <span class="product-card__tag">-28%</span>
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><circle cx="40" cy="35" r="16"/><line x1="40" y1="0" x2="40" y2="19"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Lustră LED Quentin Neagră 20W Dimabil</h3>
+        <p class="product-card__specs">20W · Dimabil · Negru</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">117,66 Lei</span>
+            <span class="product-card__price-old">163,17 Lei</span>
+          </div>
+          <span class="product-card__cat">Lustre</span>
+        </div>
+      </article>
+
+      <!-- 24 -->
+      <article class="product-card" data-cat="lustre" data-price="789.21">
+        <div class="product-card__img">
+          <span class="product-card__tag">-23%</span>
+          <div class="product-card__img-placeholder">
+            <svg viewBox="0 0 80 80"><circle cx="40" cy="35" r="22"/><line x1="40" y1="0" x2="40" y2="13"/></svg>
+          </div>
+          <div class="product-card__quick"><a href="produs.html" class="btn btn--primary btn--sm">Vezi produs</a></div>
+        </div>
+        <h3 class="product-card__name">Lustră LED Brinley 136W D600mm</h3>
+        <p class="product-card__specs">136W · D600mm · Telecomandă</p>
+        <div class="product-card__meta">
+          <div class="product-card__price-wrap">
+            <span class="product-card__price">789,21 Lei</span>
+            <span class="product-card__price-old">1.025,64 Lei</span>
+          </div>
+          <span class="product-card__cat">Lustre</span>
+        </div>
+      </article>
+
+      <!-- Empty state -->
+      <div class="empty-state" id="emptyState">
+        <p>Niciun produs găsit pentru acest filtru.</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ── FOOTER ─────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <a href="index.html" class="footer__logo">LUMIS</a>
+        <p class="footer__tagline">Iluminat de interior.<br>Livrat în România.</p>
+      </div>
+
+      <nav class="footer__nav">
+        <div class="footer__col">
+          <h4 class="footer__col-title">Colecții</h4>
+          <a href="catalog.html?cat=lustre">Lustre</a>
+          <a href="catalog.html?cat=lampi">Lămpi</a>
+          <a href="catalog.html?cat=candelabre">Candelabre</a>
+          <a href="catalog.html?cat=aplice">Aplice</a>
+          <a href="catalog.html?cat=plafoniere">Plafoniere</a>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__col-title">Informații</h4>
+          <a href="despre.html">Despre noi</a>
+          <a href="contact.html">Contact</a>
+          <a href="#">Livrare & retur</a>
+          <a href="#">Termeni și condiții</a>
+          <a href="#">Politică confidențialitate</a>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__col-title">Contact</h4>
+          <a href="mailto:contact@lumis.ro">contact@lumis.ro</a>
+          <a href="tel:+40700000000">0700 000 000</a>
+          <p style="color:var(--color-text-secondary);font-size:0.85rem;margin-top:8px;">Lun–Vin, 9:00–18:00</p>
+        </div>
+      </nav>
+    </div>
+
+    <div class="footer__bottom">
+      <p>© 2025 LUMIS. Toate drepturile rezervate.</p>
+      <p>Realizat cu ♥ în România</p>
+    </div>
+  </footer>
+
+  <script src="js/nav.js"></script>
+  <script src="js/catalog.js"></script>
+</body>
+</html>
